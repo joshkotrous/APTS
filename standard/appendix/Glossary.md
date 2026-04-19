@@ -64,7 +64,7 @@ Procedures to maintain operations if primary systems fail. For autonomous pentes
 A coordinated series of tests against multiple targets or services within a single engagement.
 
 **Customer Acceptance Testing (CAT)**
-An optional verification framework providing structured hands-on tests for validating platform behavior against APTS requirements. CAT covers 39 of the 173 tier-required requirements across five phases: scope enforcement, safety controls, detection effectiveness, data handling, and reporting. CAT can be conducted as a vendor-led demonstration or customer-led verification. See the Customer Acceptance Testing appendix.
+An optional verification framework providing structured hands-on tests for validating platform behavior against APTS requirements. CAT covers 39 of the 174 tier-required requirements across five phases: scope enforcement, safety controls, detection effectiveness, data handling, and reporting. CAT can be conducted as a vendor-led demonstration or customer-led verification. See the Customer Acceptance Testing appendix.
 
 **Certificate Pinning**
 Security technique where application verifies specific certificate or certificate authority chain, preventing man-in-the-middle attacks even if system certificate store is compromised. Recommended for critical API connections.
@@ -79,7 +79,7 @@ Notation for specifying IP address ranges using a base address and prefix length
 Alternative security measures that mitigate vulnerability when the primary control is missing. Example: Two-factor authentication compensates for weak passwords.
 
 **Compliance Tier**
-One of three progressive levels of APTS conformance. Tier 1 (Foundation) requires 72 core requirements (MUST | Tier 1). Tier 2 (Verified) adds 85 requirements for a cumulative 157 (MUST | Tier 2 + SHOULD | Tier 2). Tier 3 (Comprehensive) adds 16 requirements for a cumulative 173 (MUST | Tier 3 + SHOULD | Tier 3). A platform must meet 100% of requirements assigned to its claimed tier (both MUST and SHOULD). An additional 10 advisory practices in the Advisory Requirements appendix are recommended for highest-assurance engagements but are not counted toward any tier.
+One of three progressive levels of APTS conformance. Tier 1 (Foundation) requires 73 core requirements (MUST | Tier 1). Tier 2 (Verified) adds 85 requirements for a cumulative 158 (MUST | Tier 2 + SHOULD | Tier 2). Tier 3 (Comprehensive) adds 16 requirements for a cumulative 174 (MUST | Tier 3 + SHOULD | Tier 3). A platform must meet 100% of requirements assigned to its claimed tier (both MUST and SHOULD). An additional 10 advisory practices in the Advisory Requirements appendix are recommended for highest-assurance engagements but are not counted toward any tier.
 
 **Confidence Score**
 A numeric value on a 0-100% scale indicating the platform's certainty in a scope boundary determination, target legitimacy assessment, asset classification, or finding validity. Scores below 75% for scope-related decisions trigger mandatory human escalation. See APTS-HO-013, APTS-RP-003.

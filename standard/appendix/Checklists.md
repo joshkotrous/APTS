@@ -2,7 +2,7 @@
 
 Informative Appendix (non-normative)
 
-This appendix is part of the OWASP Autonomous Penetration Testing Standard (APTS). It organizes all 173 tier-required requirements by domain and compliance tier so that platform operators (vendors, service providers, and enterprise security teams) and customers can quickly identify what must be satisfied for each tier within each domain. All requirements referenced here are defined in the domain READMEs, which are the authoritative source. Advisory practices (identifiers of the form `APTS-<DOMAIN>-A0x`) live in the [Advisory Requirements appendix](Advisory_Requirements.md) and are not included in tier conformance.
+This appendix is part of the OWASP Autonomous Penetration Testing Standard (APTS). It organizes all 174 tier-required requirements by domain and compliance tier so that platform operators (vendors, service providers, and enterprise security teams) and customers can quickly identify what must be satisfied for each tier within each domain. All requirements referenced here are defined in the domain READMEs, which are the authoritative source. Advisory practices (identifiers of the form `APTS-<DOMAIN>-A0x`) live in the [Advisory Requirements appendix](Advisory_Requirements.md) and are not included in tier conformance.
 
 **How to use:** For your target compliance tier, satisfy all requirements at that tier **and all lower tiers** within each domain. Tier 2 includes all Tier 1 requirements; Tier 3 includes all Tier 1 and Tier 2 requirements.
 
@@ -263,6 +263,7 @@ This appendix is part of the OWASP Autonomous Penetration Testing Standard (APTS
 - [ ] **APTS-RP-006** | MUST | Disclose the platform's false positive rate methodology and measurements in every report, including overall and engagement-specific rates, flagging if rates exceed published targets.
 - [ ] **APTS-RP-008** | MUST | Include a Coverage Matrix identifying specific vulnerability classes tested, excluded, and partially covered, mapped to CWE categories with detection methods documented.
 - [ ] **APTS-RP-011** | MUST | Include an executive summary for non-technical stakeholders with overall risk posture, severity breakdown, key findings with business impact, scope coverage percentage, and clear language.
+- [ ] **APTS-RP-016** | MUST | Implement automated finding authenticity verification that screens each finding for fabricated evidence, hallucinated vulnerabilities, and severity misclassification before human review, operating independently of the discovering agent.
 
 ### Tier 2 (10 Requirements)
 
@@ -295,7 +296,7 @@ This appendix is part of the OWASP Autonomous Penetration Testing Standard (APTS
 | Auditability (AR) | 7 | 12 | 1 | 20 |
 | Manipulation Resistance (MR) | 13 | 9 | 1 | 23 |
 | Supply Chain Trust (TP) | 10 | 11 | 1 | 22 |
-| Reporting (RP) | 3 | 10 | 2 | 15 |
-| **Total** | **72** | **85** | **16** | **173** |
+| Reporting (RP) | 4 | 10 | 2 | 16 |
+| **Total** | **73** | **85** | **16** | **174** |
 
-Tier 1 + Tier 2 + Tier 3 = 173 tier-required requirements. Advisory practices are documented separately in the [Advisory Requirements appendix](Advisory_Requirements.md) and do not count toward any tier.
+Tier 1 + Tier 2 + Tier 3 = 174 tier-required requirements. Advisory practices are documented separately in the [Advisory Requirements appendix](Advisory_Requirements.md) and do not count toward any tier.

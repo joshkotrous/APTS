@@ -2,7 +2,7 @@
 
 Informative Appendix (non-normative)
 
-> **Scope Note:** This guide validates core safety, scope, and reporting controls through hands-on testing. It covers 39 of the 173 tier-required APTS requirements and does not constitute full APTS tier validation. For comprehensive tier conformance verification, evaluate against all requirements using the [Checklists](Checklists.md).
+> **Scope Note:** This guide validates core safety, scope, and reporting controls through hands-on testing. It covers 39 of the 174 tier-required APTS requirements and does not constitute full APTS tier validation. For comprehensive tier conformance verification, evaluate against all requirements using the [Checklists](Checklists.md).
 
 ## Purpose
 
@@ -248,7 +248,7 @@ After completing all phases, document results in a structured acceptance test re
 
 ## Coverage Summary
 
-This appendix provides hands-on verification procedures for 39 of the 173 tier-required APTS requirements. The remaining 134 requirements are verified through the domain README verification procedures, audit evidence review, and documentation inspection. The table below lists every requirement covered by Customer Acceptance Testing, organized by domain.
+This appendix provides hands-on verification procedures for 39 of the 174 tier-required APTS requirements. The remaining 135 requirements are verified through the domain README verification procedures, audit evidence review, and documentation inspection. The table below lists every requirement covered by Customer Acceptance Testing, organized by domain.
 
 | Domain | Requirements Covered | Count |
 |--------|---------------------|-------|

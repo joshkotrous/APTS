@@ -239,12 +239,45 @@ Findings below 50% confidence SHOULD be flagged as "Unconfirmed" and excluded fr
 
 ---
 
+## APTS-RP-016: Automated Finding Authenticity Verification
+
+**Implementation:** Deploy an independent verification step that screens every finding for fabricated evidence, hallucinated vulnerabilities, and severity misclassification before the finding enters the human review pipeline. If the verifier is LLM-based, it MUST run in an isolated context — no shared conversation history, system prompt, or in-memory state with the discovering agent.
+
+**Architecture Pattern — Independent Finding Judge:**
+
+A proven pattern is to implement the verifier as a separate "Finding Judge" agent that receives only the finding record, associated evidence artifacts (PoC scripts, HTTP request/response pairs, tool output), and the target context. The judge evaluates each finding against several checks:
+
+1. **PoC authenticity check**: Static analysis of proof-of-concept scripts for hardcoded output, absence of network calls, and output strings that match the "evidence" verbatim without any actual target interaction.
+2. **Evidence-claim consistency check**: Cross-reference the claimed vulnerability type against the raw evidence. SQL injection claims need SQL injection indicators; XSS claims need evidence of script execution.
+3. **Severity calibration check**: Evaluate whether the evidence supports the assigned severity. A Critical finding backed only by an informational disclosure is a severity mismatch.
+4. **Design-intent check**: Flag findings that describe intended application behavior (public API keys designed for client-side use, CORS headers intentionally set for broad access, documented public endpoints).
+
+The judge classifies each finding as VERIFIED, FLAGGED, or REJECTED, with a structured log entry explaining the decision.
+
+**Calibrated Confidence Thresholds:**
+
+For finding types where evidence quality varies, implement calibrated confidence ceilings. For example, email injection findings without rendering verification (confirming the injected content is actually rendered by an email client) should be assigned a confidence ceiling below the "Confirmed" threshold, ensuring they are flagged for human review regardless of other evidence quality.
+
+**Key Considerations:**
+- The verifier must be architecturally independent of the discovering agent. If both are LLM-based, they must use separate inference calls with no shared state.
+- The verifier should err toward FLAGGED (sending to human review) rather than REJECTED (dropping the finding), to avoid suppressing genuine findings.
+- For multi-agent or swarm architectures, the verifier should process findings from all agents through a single pipeline to ensure consistent integrity standards.
+- Verification adds latency to the finding pipeline. For time-sensitive engagements, consider running verification in parallel with other post-processing steps rather than as a sequential gate.
+
+**Common Pitfalls:**
+- Running the verifier in the same LLM context as the discovering agent, which allows the agent's reasoning to influence the verification outcome
+- Implementing only a "does the PoC run" check without examining whether the PoC actually contacts the target
+- Treating all REJECTED findings as false positives without logging — some may indicate a genuine vulnerability that the agent described poorly, and the rejection log helps identify patterns for agent improvement
+- Over-reliance on the verifier as a replacement for human review; the verifier is a pre-filter, not a substitute for APTS-RP-002
+
+---
+
 ## Implementation Roadmap
 
 **Tier 1 (implement before any autonomous pentesting begins):**
-RP-006 (false positive rate disclosure), RP-008 (vulnerability coverage disclosure), RP-011 (executive summary and risk overview).
+RP-006 (false positive rate disclosure), RP-008 (vulnerability coverage disclosure), RP-011 (executive summary and risk overview), RP-016 (automated finding integrity verification).
 
-Start with RP-011 (executive summary) and RP-008 (coverage disclosure). Customers need these in every report. Add RP-006 (false positive disclosure) to establish trust in findings.
+Start with RP-016 (automated finding integrity verification) and RP-011 (executive summary). RP-016 prevents hallucinated and fabricated findings from reaching customers — without it, every other reporting control operates on potentially poisoned data. Add RP-008 (coverage disclosure) and RP-006 (false positive disclosure) to establish trust in findings.
 
 **Tier 2 (implement within first 3 engagements):**
 RP-001 (evidence-based finding validation), RP-002 (automated reproduction of critical findings), RP-003 (confidence scoring), RP-004 (finding provenance chain), RP-005 (cryptographic evidence integrity), RP-009 (false negative rate disclosure), RP-012 (remediation guidance), RP-013 (engagement SLA compliance), RP-014 (trend analysis, SHOULD), RP-015 (downstream pipeline integrity, SHOULD).

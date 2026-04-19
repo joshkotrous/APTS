@@ -1,6 +1,6 @@
 # OWASP Autonomous Penetration Testing Standard
 
-This is the full OWASP Autonomous Penetration Testing Standard. It defines 173 tier-required requirements across 8 domains (plus 10 advisory practices in the [Advisory Requirements appendix](appendix/Advisory_Requirements.md)) that autonomous penetration testing platforms must meet to operate safely, transparently, and within defined boundaries, whether delivered by vendors, operated as a service, or built in-house by enterprise security teams.
+This is the full OWASP Autonomous Penetration Testing Standard. It defines 174 tier-required requirements across 8 domains (plus 10 advisory practices in the [Advisory Requirements appendix](appendix/Advisory_Requirements.md)) that autonomous penetration testing platforms must meet to operate safely, transparently, and within defined boundaries, whether delivered by vendors, operated as a service, or built in-house by enterprise security teams.
 
 ## Getting Started
 
@@ -254,3 +254,4 @@ The [appendices](./appendix/) provide cross-cutting resources: checklists, compl
 | APTS-RP-013 | Engagement SLA Compliance Reporting | MUST | 2 | Engagement SLA compliance reporting |
 | APTS-RP-014 | Trend Analysis for Recurring Engagements | SHOULD | 2 | Trend analysis for recurring engagements |
 | APTS-RP-015 | Downstream Finding Pipeline Integrity | SHOULD | 2 | Downstream finding pipeline integrity |
+| APTS-RP-016 | Automated Finding Authenticity Verification | MUST | 1 | Automated pre-screening of findings for fabricated evidence and hallucinations |

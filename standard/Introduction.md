@@ -27,7 +27,7 @@ APTS requirements are deployment-model agnostic and apply identically to the thr
 2. **Service-operated platform.** A service provider (consultancy, MSSP, or managed red-team service) operates an autonomous platform on behalf of client engagements. The service provider assesses the platform and stands behind its conformance in service agreements.
 3. **In-house enterprise platform.** An enterprise security team builds or integrates an autonomous platform for testing its own organization's systems. The security team assesses the platform against APTS as its internal governance baseline, and MAY publish its conformance claim to downstream customers as a trust signal in trust center pages, security whitepapers, customer security questionnaires, or SOC 2 complementary user entity control narratives.
 
-APTS does not prescribe who performs the assessment. The choice of internal self-assessment, independent internal review, or third-party assessment is left to the reader based on regulatory context, customer contracts, and assurance needs. The same 173 tier-required requirements and three tiers apply across all three models. For in-house deployments, the "customer" referenced in requirements such as Rules of Engagement validation, scope approval, and reporting is the internal business unit or application team requesting the test rather than an external client; the requirement itself is unchanged.
+APTS does not prescribe who performs the assessment. The choice of internal self-assessment, independent internal review, or third-party assessment is left to the reader based on regulatory context, customer contracts, and assurance needs. The same 174 tier-required requirements and three tiers apply across all three models. For in-house deployments, the "customer" referenced in requirements such as Rules of Engagement validation, scope approval, and reporting is the internal business unit or application team requesting the test rather than an external client; the requirement itself is unchanged.
 
 ---
 
@@ -42,9 +42,9 @@ APTS does not prescribe who performs the assessment. The choice of internal self
 | 5 | Auditability & Reproducibility | AR | 20 | Logging, decision trails, evidence integrity, audit trail isolation |
 | 6 | Manipulation Resistance | MR | 23 | Prompt injection, scope widening, model poisoning, agent runtime isolation |
 | 7 | Third-Party & Supply Chain Trust | TP | 22 | AI providers, cloud dependencies, data handling, foundation model disclosure |
-| 8 | Reporting | RP | 15 | Finding validation, confidence scoring, coverage disclosure |
+| 8 | Reporting | RP | 16 | Finding validation, confidence scoring, coverage disclosure, authenticity verification |
 
-**Total: 173 tier-required requirements** (Tier 1 + Tier 2 + Tier 3) across the eight domains. An additional **10 advisory practices** live exclusively in the [Advisory Requirements](appendix/Advisory_Requirements.md) appendix using the `APTS-<DOMAIN>-A0x` identifier pattern; advisory practices are not counted toward any tier and do not affect conformance.
+**Total: 174 tier-required requirements** (Tier 1 + Tier 2 + Tier 3) across the eight domains. An additional **10 advisory practices** live exclusively in the [Advisory Requirements](appendix/Advisory_Requirements.md) appendix using the `APTS-<DOMAIN>-A0x` identifier pattern; advisory practices are not counted toward any tier and do not affect conformance.
 
 ---
 
@@ -54,7 +54,7 @@ APTS defines three compliance tiers. A platform must meet 100% of requirements a
 
 **Verification model:** APTS follows a conformance assessment model, consistent with how other OWASP standards (WSTG, ASVS) are used by practitioners. Platform operators evaluate their platforms against the requirements using the [Checklists](appendix/Checklists.md) and document conformance. The [Conformance Claim Template](appendix/Conformance_Claim_Template.md) provides an optional format for publishing evidence of conformance. Customers MAY independently verify claims using the [Vendor Evaluation Guide](appendix/Vendor_Evaluation_Guide.md) or the [Customer Acceptance Testing](appendix/Customer_Acceptance_Testing.md) appendix for hands-on verification of behavioral requirements (kill switch response times, scope enforcement accuracy, manipulation resistance) that cannot be verified through documentation alone.
 
-### Tier 1: Foundation (72 requirements)
+### Tier 1: Foundation (73 requirements)
 
 **What it means for customers:** The platform will not test outside the agreed scope, can be stopped immediately if something goes wrong, will not store or leak discovered credentials in plaintext, and provides a basic audit trail of everything it did. A Tier 1 platform is safe to deploy for supervised autonomous testing against non-critical systems.
 
@@ -62,7 +62,7 @@ APTS defines three compliance tiers. A platform must meet 100% of requirements a
 
 All requirements marked `MUST | Tier 1` across all eight domains. Covers: scope boundary enforcement, impact classification, kill switch, approval gates, structured logging, basic manipulation resistance, provider vetting, credential protection.
 
-### Tier 2: Verified (85 additional, 157 cumulative)
+### Tier 2: Verified (85 additional, 158 cumulative)
 
 **What it means for customers:** The platform is transparent about what it did and why, protects your data with tamper-proof audit trails, handles incidents with formal response procedures, and provides findings you can independently verify. A Tier 2 platform is suitable for production environments, regulated industries, and engagements where you need full accountability.
 
@@ -70,7 +70,7 @@ All requirements marked `MUST | Tier 1` across all eight domains. Covers: scope 
 
 All Tier 1 plus all `MUST | Tier 2` and `SHOULD | Tier 2` requirements. Adds: tamper-proof audit trails, decision transparency, anti-manipulation controls, reproducible findings, formal incident response, third-party dependency management, L3 operational requirements.
 
-### Tier 3: Comprehensive (16 additional, 173 cumulative)
+### Tier 3: Comprehensive (16 additional, 174 cumulative)
 
 **What it means for customers:** The platform meets the highest assurance bar for critical infrastructure, fully autonomous (L4) operations, and environments with the strictest regulatory requirements. A Tier 3 platform has been validated against advanced adversarial scenarios and provides maximum transparency into its operation.
 

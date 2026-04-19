@@ -1,6 +1,6 @@
 # Reporting
 
-**Domain Prefix:** APTS-RP | **Requirements:** 15
+**Domain Prefix:** APTS-RP | **Requirements:** 16
 
 This domain defines how an autonomous penetration testing platform produces and delivers findings that customers can trust: evidence-backed, reproducibility-ready, confidence-scored, hallucination-resistant, and honest about what the engagement did and did not cover. A platform can enforce scope, stop safely, keep pristine audit trails, and resist manipulation, yet still fail its customer if findings are unverifiable, overconfident, or silently incomplete. Requirements here govern evidence-based validation, human review pipelines, confidence scoring, provenance chains, cryptographic evidence integrity, false positive and false negative disclosure, coverage disclosure, executive summaries, remediation guidance, Service Level Agreement (SLA) reporting, trend analysis, and downstream pipeline integrity.
 
@@ -12,11 +12,11 @@ This domain covers the content and integrity of findings delivered to the custom
 
 ## Domain Overview
 
-The 15 requirements in this domain fall into five thematic groups:
+The 16 requirements in this domain fall into five thematic groups:
 
 | Group | Requirements | Purpose |
 |---|---|---|
-| **Finding validation, review, and confidence** | APTS-RP-001, APTS-RP-002, APTS-RP-003 | Evidence-based validation, human review pipeline, confidence scoring methodology |
+| **Finding validation, review, and confidence** | APTS-RP-001, APTS-RP-002, APTS-RP-003, APTS-RP-016 | Evidence-based validation, human review pipeline, confidence scoring methodology, automated authenticity verification |
 | **Provenance and evidence integrity** | APTS-RP-004, APTS-RP-005 | Finding provenance chain, cryptographic evidence chain integrity |
 | **Accuracy and coverage disclosure** | APTS-RP-006, APTS-RP-007, APTS-RP-008, APTS-RP-009, APTS-RP-010 | False positive disclosure, independent reproducibility, coverage disclosure, false negative disclosure, detection effectiveness benchmarking |
 | **Customer-facing report content** | APTS-RP-011, APTS-RP-012, APTS-RP-013 | Executive summary and risk overview, remediation guidance and prioritization, SLA compliance reporting |
@@ -41,6 +41,7 @@ The 15 requirements in this domain fall into five thematic groups:
 | APTS-RP-013 | Engagement SLA Compliance Reporting | MUST \| Tier 2 |
 | APTS-RP-014 | Trend Analysis for Recurring Engagements | SHOULD \| Tier 2 |
 | APTS-RP-015 | Downstream Finding Pipeline Integrity | SHOULD \| Tier 2 |
+| APTS-RP-016 | Automated Finding Authenticity Verification | MUST \| Tier 1 |
 
 ### Conformance
 
@@ -427,5 +428,39 @@ When the platform integrates with downstream systems for finding delivery (ticke
 6. Finding delivery failure is detected and logged; verify retry or escalation occurs
 
 > **See also:** APTS-TP-012 (client data classification framework and provider data handling)
+
+---
+
+## APTS-RP-016: Automated Finding Authenticity Verification
+
+**Classification:** MUST | Tier 1
+
+### Requirement
+
+The platform MUST implement an automated verification mechanism that screens each reported finding for fabricated evidence, hallucinated vulnerabilities, and synthetic proof artifacts before the finding enters the human review pipeline (APTS-RP-002) or the final report.
+
+LLM-based penetration testing agents can produce findings that appear legitimate but contain fabricated evidence: proof-of-concept scripts that output hardcoded strings instead of making real requests, HTTP responses that were not actually received from the target, or severity classifications unsupported by the evidence. Because these fabricated findings are fluent and internally consistent, they pass casual human review and erode trust in the platform's output. This requirement mandates an automated integrity check as the first filter before human review, so that reviewers spend their time on genuine judgment calls rather than authenticity checking.
+
+The verification mechanism MUST:
+
+1. **Operate independently of the agent that produced the finding.** The verifier MUST NOT share a context window, conversation history, or in-memory state with the discovering agent. If the verifier is itself LLM-based, it MUST receive only the finding record, the associated evidence artifacts, and any relevant tool output — not the discovering agent's reasoning chain or system prompt.
+2. **Screen for fabricated evidence artifacts.** The verifier MUST detect proof-of-concept scripts or commands that produce output without interacting with the target (for example, scripts that echo canned strings, hardcoded HTTP responses, or synthetic screenshots). Detection MUST include static analysis of PoC artifacts for: absence of network calls to the target, hardcoded output strings that match the "evidence" verbatim, and output that could not have been produced by the claimed tool or technique.
+3. **Screen for hallucinated vulnerabilities.** The verifier MUST cross-reference the claimed vulnerability against the raw evidence artifacts. A finding that claims SQL injection MUST have evidence of actual SQL injection behavior (error messages, data exfiltration, time-based delay); a finding that claims XSS MUST have evidence of script execution or DOM manipulation. Findings where the evidence does not support the claimed vulnerability type MUST be flagged.
+4. **Screen for severity misclassification.** The verifier MUST evaluate whether the evidence supports the assigned severity. A finding classified as Critical MUST have evidence of impact commensurate with Critical severity (for example, remote code execution, authentication bypass, mass data exposure). Findings where severity is unsupported by the evidence MUST be flagged for reclassification.
+5. **Screen for design-intent false positives.** The verifier SHOULD detect findings that describe intended application behavior as vulnerabilities (for example, public API keys that are designed for client-side use, CORS headers that intentionally permit broad access, or informational endpoints that are documented as public).
+6. **Classify each finding.** The verifier MUST assign each finding one of the following integrity statuses: VERIFIED (evidence is authentic, supports the claimed vulnerability type and severity), FLAGGED (evidence appears inconsistent with the claim; requires human review before inclusion), or REJECTED (evidence is fabricated or does not demonstrate any vulnerability). REJECTED findings MUST NOT appear in the main findings section of the report; they MAY appear in an appendix labeled "Rejected by Integrity Verification" if the customer requests full disclosure.
+7. **Log all verification decisions.** Each verification decision MUST be logged with: the finding identifier, the integrity status assigned, the specific checks that passed or failed, and the evidence artifacts examined. Verification logs MUST be included in the engagement audit trail.
+
+### Verification
+
+1. Submit 5 findings with legitimate evidence (actual HTTP responses, real tool output, working PoC scripts that contact the target). Verify all 5 are classified as VERIFIED.
+2. Submit 3 findings with fabricated PoC scripts (scripts that echo hardcoded output without making network requests). Verify all 3 are classified as FLAGGED or REJECTED, with the specific fabrication indicator identified in the verification log.
+3. Submit 2 findings where the claimed vulnerability type does not match the evidence (for example, a finding claiming SQL injection with evidence showing only a 200 OK response with no injection indicators). Verify both are classified as FLAGGED with the mismatch documented.
+4. Submit 2 findings with inflated severity (for example, a finding classified as Critical backed by evidence of an informational disclosure). Verify both are FLAGGED for severity reclassification.
+5. Verify that REJECTED findings do not appear in the main findings section of a sample report.
+6. Verify that the verifier does not share context, conversation history, or in-memory state with the discovering agent. Inspect the verifier's input: confirm it receives only the finding record, evidence artifacts, and tool output.
+7. Review verification logs for 10 findings from a recent engagement. Confirm each log entry includes: finding identifier, integrity status, checks performed, and evidence artifacts examined.
+
+> **See also:** APTS-RP-001 (evidence-based finding validation that this requirement pre-screens), APTS-RP-002 (human review pipeline that receives integrity-verified findings), APTS-RP-003 (confidence scoring that may incorporate integrity verification results), APTS-AR-006 (decision chain of reasoning applied to the verification decision).
 
 ---
